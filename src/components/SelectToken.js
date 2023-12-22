@@ -40,14 +40,7 @@ const options = Object.keys(TOKEN_SYMBOLS)
   .filter(
     s =>
       s !== 'SHWEATPANTS' &&
-      s !== 'ALVIN' &&
-      s !== 'WXDAI' &&
-      s !== 'SHWEATPANTSV1' &&
-      s !== 'ALVINV1' &&
-      s !== 'SHWEATPANTSV2' &&
-      s !== 'ALVINV2' &&
-      s !== 'PRTCLE' &&
-      s !== 'HNY'
+      s !== 'WXDAI'
   )
   .map(s => ({ value: s, label: s }))
 

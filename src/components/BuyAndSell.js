@@ -235,11 +235,11 @@ export default function BuyAndSell({
           <CheckoutPrompt>
             <i>{buying ? 'Want to buy $PANTS?' : 'Want to sell $PANTS'}</i>
           </CheckoutPrompt>
-          {/* <SelectToken
+          <SelectToken
             selectedTokenSymbol={selectedTokenSymbol}
             setSelectedTokenSymbol={setSelectedTokenSymbol}
             prefix={TokenVal()}
-          />  */}
+          /> 
         </CheckoutControls>
       )}
       {shouldRenderUnlock ? (

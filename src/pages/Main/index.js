@@ -261,29 +261,27 @@ export default function Main({ stats, status, staking, migration }) {
 
   const ready = !!(
     (account === null || allowanceSHWEATPANTS) &&
-    (account === null || allowanceALVIN) &&
-    (selectedTokenSymbol === 'ETH' || account === null || allowanceSHWEATPANTSSelectedToken) &&
+    (selectedTokenSymbol === 'ETH' || account === null || allowanceSHWEATPANTSSelectedToken)&&
     (selectedTokenSymbol === 'ETH' || account === null || allowanceALVINSelectedToken) &&
     (account === null || balanceETH) &&
     (account === null || balanceSHWEATPANTS) &&
-    (account === null || balanceALVIN) &&
     (account === null || balanceSelectedToken) &&
     (account === null || balanceContractShweatpants) &&
-    (account === null || balanceContractAlvin) &&
+    // (account === null || balanceContractAlvin) &&
     reserveSHWEATPANTSETH &&
-    reserveALVINETH &&
+    // reserveALVINETH &&
     reserveSHWEATPANTSToken &&
-    reserveALVINToken &&
+    // reserveALVINToken &&
     (selectedTokenSymbol === 'ETH' || reserveSelectedTokenETH) &&
     (selectedTokenSymbol === 'ETH' || reserveSelectedTokenToken) &&
     selectedTokenSymbol &&
-    (USDExchangeRateETH || USDExchangeRateSelectedToken) &&
-    (account === null || stakedPRTCLEToken) &&
-    (account === null || stakedHNYToken) &&
-    (account === null || stakedHNYPRTCLEToken) &&
-    (account === null || stakedPRTCLETokenOld) &&
-    (account === null || stakedHNYTokenOld) &&
-    (account === null || stakedHNYPRTCLETokenOld)
+    (USDExchangeRateETH || USDExchangeRateSelectedToken) 
+    // (account === null || stakedPRTCLEToken) &&
+    // (account === null || stakedHNYToken) &&
+    // (account === null || stakedHNYPRTCLEToken) &&
+    // (account === null || stakedPRTCLETokenOld) &&
+    // (account === null || stakedHNYTokenOld) &&
+    // (account === null || stakedHNYPRTCLETokenOld)
   )
 
   useEffect(() => {

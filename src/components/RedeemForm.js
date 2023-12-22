@@ -131,11 +131,11 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
       })
     }
 
-    addressMapping.forEach(item => {
-      address.forEach(addressItem => {
-        getTypes(addressItem.types, addressItem.long_name, item)
-      })
-    })
+    // addressMapping.forEach(item => {
+    //   address.forEach(addressItem => {
+    //     getTypes(addressItem.types, addressItem.long_name, item)
+    //   })
+    // })
   }
 
   // keep acount in sync
@@ -263,10 +263,10 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
         autoComplete="email"
       />
 
-      {recaptchaEnabled && <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_RECAPTCHA_KEY} onChange={onRecaptcha} />}
+      {/* {recaptchaEnabled && <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_RECAPTCHA_KEY} onChange={onRecaptcha} />} */}
       <ButtonFrame
         type="submit"
-        disabled={!canSign || (recaptchaEnabled && !!!recaptcha)}
+        // disabled={!canSign || (recaptchaEnabled && !!!recaptcha)}
         onClick={event => {
           const signer = library.getSigner()
           const timestampToSign = Math.round(Date.now() / 1000)
