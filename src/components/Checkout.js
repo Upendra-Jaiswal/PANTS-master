@@ -30,7 +30,7 @@ export function useCount(initialValue, max) {
 
   function increment() {
     setState(state => {
-      const newCount = state.count + 1
+      const newCount = state.count + 0.1
       if (!max || newCount <= max) {
         return { ...state, count: newCount }
       } else {
@@ -40,8 +40,8 @@ export function useCount(initialValue, max) {
   }
 
   function decrement() {
-    if (state.count > 1) {
-      setState(state => ({ ...state, count: state.count - 1 }))
+    if (state.count > 0.1) {
+      setState(state => ({ ...state, count: state.count - 0.1 }))
     }
   }
 

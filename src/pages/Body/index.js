@@ -290,11 +290,11 @@ export default function Body({
           </Info>
           <BuyButtons color={'#ff006c'} balanceDripp={balanceSHWEATPANTS} drippSelected={'SHWEATPANTS'} />
           <RedeemButton balanceDripp={balanceSHWEATPANTS} drippSelected={'SHWEATPANTS'} />
-          {!!account && (
+          {/* {!!account && (
             <Link style={{ textDecoration: 'none' }} to="/status">
               <OrderStatusLink>Check order status?</OrderStatusLink>
             </Link>
-          )}
+          )} */}
         </Content>
         {/* // </Flex> */}
         {/* <Link to="/staking" style={{ textDecoration: 'none', width: '100%' }}>
@@ -302,9 +302,9 @@ export default function Body({
         </Link> */}
       </div>
 
-      <a href="https://www.youtube.com/watch?v=1pKSjAWu0m8" style={{ textDecoration: 'none', width: '100%', textAlign: 'center' }}>
+      {/* <a href="https://www.youtube.com/watch?v=1pKSjAWu0m8" style={{ textDecoration: 'none', width: '100%', textAlign: 'center' }}>
         <h3>ALVIN is BACK!</h3>
-      </a>
+      </a> */}
 
       <Checkout
         selectedTokenSymbol={selectedTokenSymbol}
