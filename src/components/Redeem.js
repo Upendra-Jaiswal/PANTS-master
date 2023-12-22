@@ -154,7 +154,7 @@ export default function Redeem({
           </TopFrame>
 
           {/* <Count>2/3</Count> */}
-          <CheckoutPrompt>Where should we send them?</CheckoutPrompt>
+          {/* <CheckoutPrompt>Where should we send them?</CheckoutPrompt> */}
           <RedeemFrame
             burn={burn}
             setHasConfirmedAddress={setHasConfirmedAddress}

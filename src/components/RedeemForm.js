@@ -170,7 +170,7 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
   return (
     <FormFrame autocomplete="off">
       <input hidden type="text" name="beep-boop" value={formState[bot]} onChange={handleChange} />
-      <input
+      {/* <input
         required
         type="text"
         name={name}
@@ -178,8 +178,8 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
         onChange={handleChange}
         placeholder={nameMap[name]}
         autoComplete="name"
-      />
-      <Compressed>
+      /> */}
+      {/* <Compressed>
         <Suggest
           required
           myRef={suggestEl}
@@ -201,8 +201,8 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
           placeholder={nameMap[line2]}
           autoComplete="off"
         />
-      </Compressed>
-      <input
+      </Compressed> */}
+      {/* <input
         required
         type="text"
         name={city}
@@ -210,9 +210,9 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
         onChange={handleChange}
         placeholder={nameMap[city]}
         autoComplete="address-level2"
-      />
+      /> */}
 
-      <Compressed>
+      {/* <Compressed>
         <input
           style={{ marginRight: '8px' }}
           required
@@ -232,9 +232,9 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
           placeholder={nameMap[zip]}
           autoComplete="postal-code"
         />
-      </Compressed>
+      </Compressed> */}
 
-      <input
+      {/* <input
         required
         type="text"
         name={country}
@@ -242,18 +242,18 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
         onChange={handleChange}
         placeholder={nameMap[country]}
         autoComplete="country-name"
-      />
+      /> */}
 
-      <select required name={size} value={formState[size]} onChange={handleChange} placeholder={nameMap[size]}>
+      {/* <select required name={size} value={formState[size]} onChange={handleChange} placeholder={nameMap[size]}>
         <option value="" selected disabled>
           Choose Size
         </option>
         {sizes.map(({ value, label }, index) => (
           <option value={value}>{label}</option>
         ))}
-      </select>
+      </select> */}
 
-      <input
+      {/* <input
         required
         type="email"
         name={email}
@@ -261,7 +261,7 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
         onChange={handleChange}
         placeholder={nameMap[email]}
         autoComplete="email"
-      />
+      /> */}
 
       {/* {recaptchaEnabled && <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_RECAPTCHA_KEY} onChange={onRecaptcha} />} */}
       <ButtonFrame
@@ -279,17 +279,17 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
             fetch('/', {
               method: 'POST',
               headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              body: encode({
-                'form-name': 'redeem',
-                ...{
-                  ...formState,
-                  [address]: account,
-                  [timestamp]: timestampToSign,
-                  [numberBurned]: actualNumberBurned,
-                  [signature]: returnedSignature,
-                  ...(recaptchaEnabled ? { 'g-recaptcha-response': recaptcha } : {})
-                }
-              })
+              // body: encode({
+              //   'form-name': 'redeem',
+              //   // ...{
+              //   //   ...formState,
+              //   //   [address]: account,
+              //   //   [timestamp]: timestampToSign,
+              //   //   [numberBurned]: actualNumberBurned,
+              //   //   [signature]: returnedSignature,
+              //   //   ...(recaptchaEnabled ? { 'g-recaptcha-response': recaptcha } : {})
+              //   // }
+              // })
             })
               .then(() => {
                 setHasConfirmedAddress(true)
@@ -300,7 +300,7 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
           event.preventDefault()
         }}
       >
-        {canSign ? 'Next' : 'Complete the form to continue'}
+        {canSign ? 'Next' : 'Sign the Message'}
       </ButtonFrame>
       <br />
     </FormFrame>
