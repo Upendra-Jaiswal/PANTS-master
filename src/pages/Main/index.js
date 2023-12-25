@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from 'react'
 import { useWeb3Context } from 'web3-react'
 import { ethers, BigNumber } from 'ethers'
+import buyburnabi from '../../utils/buyburn.json'
 
 import {
   TOKEN_SYMBOLS,
@@ -212,7 +213,7 @@ export default function Main({ stats, status, staking, migration }) {
   const balanceETH = useAddressBalance(account, TOKEN_ADDRESSES.ETH)
   const balanceSHWEATPANTS = useAddressBalance(account, TOKEN_ADDRESSES.SHWEATPANTS)
   const balanceALVIN = useAddressBalance(account, TOKEN_ADDRESSES.ALVIN)
-  const balanceSelectedToken = useAddressBalance(account, TOKEN_ADDRESSES["ETH"])
+  const balanceSelectedToken = useAddressBalance(account, TOKEN_ADDRESSES['ETH'])
   const balanceContractShweatpants = useAddressBalance(STAKING_ADDRESS, TOKEN_ADDRESSES.SHWEATPANTS)
   const balanceContractAlvin = useAddressBalance(STAKING_ADDRESS, TOKEN_ADDRESSES.ALVIN)
 
@@ -260,22 +261,24 @@ export default function Main({ stats, status, staking, migration }) {
   const [USDExchangeRateSelectedToken, setUSDExchangeRateSelectedToken] = useState()
 
   const ready = !!(
-    (account === null || allowanceSHWEATPANTS) &&
-    (selectedTokenSymbol === 'ETH' || account === null || allowanceSHWEATPANTSSelectedToken)&&
-    (selectedTokenSymbol === 'ETH' || account === null || allowanceALVINSelectedToken) &&
-    (account === null || balanceETH) &&
-    (account === null || balanceSHWEATPANTS) &&
-    (account === null || balanceSelectedToken) &&
-    (account === null || balanceContractShweatpants) &&
-    // (account === null || balanceContractAlvin) &&
-    reserveSHWEATPANTSETH &&
-    // reserveALVINETH &&
-    reserveSHWEATPANTSToken &&
-    // reserveALVINToken &&
-    (selectedTokenSymbol === 'ETH' || reserveSelectedTokenETH) &&
-    (selectedTokenSymbol === 'ETH' || reserveSelectedTokenToken) &&
-    selectedTokenSymbol &&
-    (USDExchangeRateETH || USDExchangeRateSelectedToken) 
+    (
+      (account === null || allowanceSHWEATPANTS) &&
+      (selectedTokenSymbol === 'ETH' || account === null || allowanceSHWEATPANTSSelectedToken) &&
+      (selectedTokenSymbol === 'ETH' || account === null || allowanceALVINSelectedToken) &&
+      (account === null || balanceETH) &&
+      (account === null || balanceSHWEATPANTS) &&
+      (account === null || balanceSelectedToken) &&
+      (account === null || balanceContractShweatpants) &&
+      // (account === null || balanceContractAlvin) &&
+      reserveSHWEATPANTSETH &&
+      // reserveALVINETH &&
+      reserveSHWEATPANTSToken &&
+      // reserveALVINToken &&
+      (selectedTokenSymbol === 'ETH' || reserveSelectedTokenETH) &&
+      (selectedTokenSymbol === 'ETH' || reserveSelectedTokenToken) &&
+      selectedTokenSymbol &&
+      (USDExchangeRateETH || USDExchangeRateSelectedToken)
+    )
     // (account === null || stakedPRTCLEToken) &&
     // (account === null || stakedHNYToken) &&
     // (account === null || stakedHNYPRTCLEToken) &&
@@ -283,6 +286,20 @@ export default function Main({ stats, status, staking, migration }) {
     // (account === null || stakedHNYTokenOld) &&
     // (account === null || stakedHNYPRTCLETokenOld)
   )
+  const [contract, setContract] = useState('')
+  const contractaddress = '0x7c6e7dc9638754b0a20e130737c5caf816D410E6'
+  const contractabi = buyburnabi
+
+  useEffect(() => {
+    const init = async () => {
+      let provider = ethers.getDefaultProvider()
+      let contractdata = new ethers.Contract(contractaddress, contractabi, provider)
+      setContract(contractdata)
+      console.log(contractdata)
+    }
+
+    init()
+  }, [])
 
   useEffect(() => {
     //@TODO
@@ -325,7 +342,6 @@ export default function Main({ stats, status, staking, migration }) {
       setSHWEATPANTSDollarPrice(getExchangeRate(reserveSHWEATPANTSToken, reserveSHWEATPANTSETH))
 
       setALVINDollarPrice(getExchangeRate(reserveALVINToken, reserveALVINETH))
-    
     } catch {
       setSHWEATPANTSDollarPrice()
       setALVINDollarPrice()
@@ -435,7 +451,7 @@ export default function Main({ stats, status, staking, migration }) {
 
       // get max slippage amount
       const { maximum } = calculateSlippageBounds(requiredValueInSelectedToken)
-      console.log('maximum: ', maximum.toString());
+      console.log('maximum: ', maximum.toString())
 
       // the following are 'non-breaking' errors that will still return the data
       let errorAccumulator
@@ -447,10 +463,9 @@ export default function Main({ stats, status, staking, migration }) {
           errorAccumulator = error
         }
       }
-      console.log('balanceSelectedToken: ', balanceSelectedToken.toString());
+      console.log('balanceSelectedToken: ', balanceSelectedToken.toString())
       // validate minimum selected token balance
       if (balanceSelectedToken && maximum && balanceSelectedToken.lt(maximum)) {
-        
         const error = Error()
         error.code = ERROR_CODES.INSUFFICIENT_SELECTED_TOKEN_BALANCE
         if (!errorAccumulator) {
