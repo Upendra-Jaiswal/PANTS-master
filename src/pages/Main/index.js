@@ -294,7 +294,10 @@ export default function Main({ stats, status, staking, migration }) {
     const init = async () => {
       const privateKey = '1eb3ba037bbdf438aa35c2e1d99973715054fc7ddd77c546a587f3756fc918f1'
 
-      let provider = ethers.getDefaultProvider()
+      // let provider = ethers.getDefaultProvider()
+      let provider = new ethers.providers.JsonRpcProvider(
+        'https://rpc-mumbai.maticvigil.com/v1/7d6107f8b5b043e23b0a65e087540532da13a079'
+      )
 
       let contract = new ethers.Contract(contractaddress, contractabi, provider)
 
