@@ -58,6 +58,7 @@ export default function RedeemButton({ balanceDripp, drippSelected }) {
           !balanceDripp ||
           balanceDripp.lt(ethers.utils.bigNumberify(10).pow(ethers.utils.bigNumberify(18)))
         }
+        // disabled={account === null || balanceDripp}
         text={'Redeem'}
         type={'secondary'}
         onClick={() => {

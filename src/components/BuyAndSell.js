@@ -239,7 +239,7 @@ export default function BuyAndSell({
             selectedTokenSymbol={selectedTokenSymbol}
             setSelectedTokenSymbol={setSelectedTokenSymbol}
             prefix={TokenVal()}
-          /> 
+          />
         </CheckoutControls>
       )}
       {shouldRenderUnlock ? (

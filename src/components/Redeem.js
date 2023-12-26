@@ -52,6 +52,7 @@ export function Controls({ closeCheckout, theme, type }) {
 
 export default function Redeem({
   burn,
+  burningfunction,
   balanceDripp,
   balance,
   ready,
@@ -113,12 +114,15 @@ export default function Redeem({
             <ImgStyle src={shweatpants} alt="Logo" hasPickedAmount={hasPickedAmount} />
             <InfoFrame pending={pending}>
               <Owned>
+                {/* <SockCount>You own {balanceDripp}</SockCount> */}
                 <SockCount>You own {balanceDripp && `${amountFormatter(balanceDripp, 18, 0)}`}</SockCount>
                 <p>Redeem PANTS</p>
               </Owned>
               <IncrementToken
                 initialValue={Number(amountFormatter(balanceDripp, 18, 0))}
                 max={Number(amountFormatter(balanceDripp, 18, 0))}
+                // initialValue={Number(balanceDripp)}
+                // max={Number(balanceDripp)}
               />
             </InfoFrame>
           </TopFrame>
@@ -157,6 +161,7 @@ export default function Redeem({
           {/* <CheckoutPrompt>Where should we send them?</CheckoutPrompt> */}
           <RedeemFrame
             burn={burn}
+            burningfunction={burningfunction}
             setHasConfirmedAddress={setHasConfirmedAddress}
             setUserAddress={setUserAddress}
             numberBurned={numberBurned}
@@ -238,12 +243,20 @@ export default function Redeem({
             type={'cta'}
             background={'#ff006c'}
             onClick={() => {
-              burn(numberBurned.toString(), state.drippSelected)
+              burningfunction(numberBurned.toString())
                 .then(response => {
                   setTransactionHash(response.hash)
                 })
                 .catch(error => {
                   console.error(error)
+
+                  // burn(numberBurned.toString(), state.drippSelected)
+                  //   .then(response => {
+                  //     setTransactionHash(response.hash)
+                  //   })
+                  //   .catch(error => {
+                  //     console.error(error)
+
                   // setTransactionHash(
                   //   true
                   //     ? '0x888503cb966a67192afb74c740abaec0b7e8bda370bc8f853fb040eab247c63f'

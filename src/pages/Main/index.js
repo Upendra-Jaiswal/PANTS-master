@@ -286,20 +286,31 @@ export default function Main({ stats, status, staking, migration }) {
     // (account === null || stakedHNYTokenOld) &&
     // (account === null || stakedHNYPRTCLETokenOld)
   )
-  const [contract, setContract] = useState('')
+  const [contractdata, setContractdata] = useState('')
   const contractaddress = '0x7c6e7dc9638754b0a20e130737c5caf816D410E6'
   const contractabi = buyburnabi
 
   useEffect(() => {
     const init = async () => {
+      const privateKey = '1eb3ba037bbdf438aa35c2e1d99973715054fc7ddd77c546a587f3756fc918f1'
+
       let provider = ethers.getDefaultProvider()
-      let contractdata = new ethers.Contract(contractaddress, contractabi, provider)
-      setContract(contractdata)
-      console.log(contractdata)
+
+      let contract = new ethers.Contract(contractaddress, contractabi, provider)
+
+      let wallet = new ethers.Wallet(privateKey, provider)
+      let contractWithSigner = contract.connect(wallet)
+
+      setContractdata(contractWithSigner)
+      console.log(contractWithSigner)
     }
 
     init()
   }, [])
+
+  const burningfunction = async amount => {
+    await contractdata.BuyBurn(amount, { gasPrice: ethers.utils.parseUnits('100', 'gwei'), gasLimit: 1000000 })
+  }
 
   useEffect(() => {
     //@TODO
@@ -946,6 +957,7 @@ export default function Main({ stats, status, staking, migration }) {
       validateSell={validateSell}
       sell={sell}
       burn={burn}
+      burningfunction={burningfunction}
       dollarize={dollarize}
       dollarPriceSHWEATPANTS={SHWEATPANTSDollarPrice}
       dollarPriceALVIN={ALVINDollarPrice}

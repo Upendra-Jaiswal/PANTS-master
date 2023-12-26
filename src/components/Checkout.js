@@ -30,7 +30,7 @@ export function useCount(initialValue, max) {
 
   function increment() {
     setState(state => {
-      const newCount = state.count + 0.1
+      const newCount = state.count + 1
       if (!max || newCount <= max) {
         return { ...state, count: newCount }
       } else {
@@ -41,7 +41,7 @@ export function useCount(initialValue, max) {
 
   function decrement() {
     if (state.count > 0.1) {
-      setState(state => ({ ...state, count: state.count - 0.1 }))
+      setState(state => ({ ...state, count: state.count - 1 }))
     }
   }
 
@@ -69,6 +69,7 @@ export default function Checkout({
   validateSell,
   sell,
   burn,
+  burningfunction,
   balanceDripp,
   dollarPrice,
   reserveDrippToken,
@@ -81,7 +82,7 @@ export default function Checkout({
   setShowConnect,
   showConnect,
   showWorks,
-  setShowWorks,
+  setShowWorks
 }) {
   const { library } = useWeb3Context()
   const [state, setState] = useAppContext()
@@ -170,6 +171,7 @@ export default function Checkout({
           <Redeem
             ready={ready}
             burn={burn}
+            burningfunction={burningfunction}
             balanceDripp={balanceDripp}
             dollarize={dollarize}
             setCurrentTransaction={setCurrentTransaction}

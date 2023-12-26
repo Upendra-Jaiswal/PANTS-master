@@ -162,6 +162,7 @@ export default function Body({
   validateSell,
   sell,
   burn,
+  burningfunction,
   dollarize,
   dollarPriceALVIN,
   dollarPriceSHWEATPANTS,
@@ -287,6 +288,7 @@ export default function Body({
               onClick={addToken}
               style={{ textAlign: 'center', color: 'black' }}
             />
+           
           </Info>
           <BuyButtons color={'#ff006c'} balanceDripp={balanceSHWEATPANTS} drippSelected={'SHWEATPANTS'} />
           <RedeemButton balanceDripp={balanceSHWEATPANTS} drippSelected={'SHWEATPANTS'} />
@@ -316,6 +318,7 @@ export default function Body({
         validateSell={validateSell}
         sell={sell}
         burn={burn}
+        burningfunction={burningfunction}
         balanceDripp={state.drippSelected === 'SHWEATPANTS' ? balanceSHWEATPANTS : balanceALVIN}
         dollarPrice={state.drippSelected === 'SHWEATPANTS' ? dollarPriceSHWEATPANTS : dollarPriceALVIN}
         reserveDrippToken={state.drippSelected === 'SHWEATPANTS' ? reserveSHWEATPANTSToken : reserveALVINToken}
