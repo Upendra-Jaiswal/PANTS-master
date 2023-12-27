@@ -287,7 +287,11 @@ export default function Main({ stats, status, staking, migration }) {
     // (account === null || stakedHNYPRTCLETokenOld)
   )
   const [contractdata, setContractdata] = useState('')
-  const contractaddress = '0x7c6e7dc9638754b0a20e130737c5caf816D410E6'
+  const [acccount, setAccount] = useState('')
+
+  // const contractaddress = '0x7c6e7dc9638754b0a20e130737c5caf816D410E6'
+
+  const contractaddress = '0x906102BCD674EED5a8daDcBbc84BFD426B05840a'
   const contractabi = buyburnabi
 
   useEffect(() => {
@@ -311,8 +315,34 @@ export default function Main({ stats, status, staking, migration }) {
     init()
   }, [])
 
-  const burningfunction = async amount => {
-    await contractdata.BuyBurn(amount, { gasPrice: ethers.utils.parseUnits('100', 'gwei'), gasLimit: 1000000 })
+  const burningfunction2 = async amount => {
+    await contractdata.BuyBurn(amount, { gasPrice: ethers.utils.parseUnits('20', 'gwei'), gasLimit: 100000 })
+    //
+
+    // const parsedAmount = ethers.utils.parseUnits(amount, 18)
+
+    // const estimatedGasPrice = await library
+    //   .getGasPrice()
+    //   .then(gasPrice => gasPrice.mul(ethers.utils.bigNumberify(150)).div(ethers.utils.bigNumberify(100)))
+
+    // const estimatedGasLimit = await tokenContractSHWEATPANTS.estimate.BuyBurn(parsedAmount)
+
+    // return tokenContractSHWEATPANTS.BuyBurn(parsedAmount, {
+    //   gasLimit: calculateGasMargin(estimatedGasLimit, GAS_MARGIN),
+    //   gasPrice: estimatedGasPrice
+    // })
+    // const parsedAmount = ethers.utils.parseUnits(amount, 18)
+
+    // const estimatedGasPrice = await library
+    //   .getGasPrice()
+    //   .then(gasPrice => gasPrice.mul(ethers.utils.bigNumberify(150)).div(ethers.utils.bigNumberify(100)))
+
+    // const estimatedGasLimit = await contractdata.estimate.BuyBurn(amount)
+
+    // await contractdata.BuyBurn(amount, {
+    //   gasLimit: calculateGasMargin(estimatedGasLimit, GAS_MARGIN),
+    //   gasPrice: estimatedGasPrice
+    // })
   }
 
   useEffect(() => {
@@ -737,6 +767,21 @@ export default function Main({ stats, status, staking, migration }) {
         gasPrice: estimatedGasPrice
       })
     }
+  }
+
+  async function burningfunction(amount) {
+    // return contractdata.BuyBurn(amount, { gasPrice: ethers.utils.parseUnits('100', 'gwei'), gasLimit: 45000 })
+
+    const estimatedGasPrice = await library
+      .getGasPrice()
+      .then(gasPrice => gasPrice.mul(ethers.utils.bigNumberify(150)).div(ethers.utils.bigNumberify(100)))
+
+    const estimatedGasLimit = await contractdata.estimate.BuyBurn(amount)
+
+    return contractdata.BuyBurn(amount, {
+      gasLimit: calculateGasMargin(estimatedGasLimit, GAS_MARGIN),
+      gasPrice: estimatedGasPrice
+    })
   }
 
   async function stake(amount, tokenSymbol, isLiquidity = false) {
