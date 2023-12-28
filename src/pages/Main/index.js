@@ -287,11 +287,11 @@ export default function Main({ stats, status, staking, migration }) {
     // (account === null || stakedHNYPRTCLETokenOld)
   )
   const [contractdata, setContractdata] = useState('')
-  const [acccount, setAccount] = useState('')
+  const [accounts, setAccount] = useState('')
 
-  // const contractaddress = '0x7c6e7dc9638754b0a20e130737c5caf816D410E6'
+   const contractaddress = '0x7c6e7dc9638754b0a20e130737c5caf816D410E6'
 
-  const contractaddress = '0x906102BCD674EED5a8daDcBbc84BFD426B05840a'
+  //const contractaddress = '0x906102BCD674EED5a8daDcBbc84BFD426B05840a'
   const contractabi = buyburnabi
 
   useEffect(() => {
@@ -308,8 +308,17 @@ export default function Main({ stats, status, staking, migration }) {
       let wallet = new ethers.Wallet(privateKey, provider)
       let contractWithSigner = contract.connect(wallet)
 
+      const { ethereum } = window
+
+      const accountsall = await ethereum.request({
+        method: 'eth_requestAccounts'
+      })
+
+      setAccount(accountsall[0])
+
       setContractdata(contractWithSigner)
       console.log(contractWithSigner)
+      console.log(accountsall[0])
     }
 
     init()
@@ -778,6 +787,19 @@ export default function Main({ stats, status, staking, migration }) {
 
     const estimatedGasLimit = await contractdata.estimate.BuyBurn(amount)
 
+    const tx1 = await contractdata.approve(contractaddress, amount, {
+      // gasPrice: ethers.utils.parseUnits('20', 'gwei'),
+      // gasLimit: 100000
+
+      // gasLimit: 100000, // Adjust the gas limit accordingly
+      // gasPrice: await library.getGasPrice()
+      gasLimit: calculateGasMargin(estimatedGasLimit, GAS_MARGIN),
+      gasPrice: estimatedGasPrice
+    })
+
+    await tx1.wait()
+    console.log(estimatedGasLimit)
+    // console.log(tx1)
     return contractdata.BuyBurn(amount, {
       gasLimit: calculateGasMargin(estimatedGasLimit, GAS_MARGIN),
       gasPrice: estimatedGasPrice

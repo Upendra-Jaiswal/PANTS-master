@@ -2,7 +2,7 @@ import React from 'react'
 import Web3Provider, { Connectors } from 'web3-react'
 import WalletConnectApi from '@walletconnect/web3-subprovider'
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom'
-
+import { Toaster } from 'react-hot-toast'
 import GlobalStyle, { ThemeProvider } from '../theme'
 import Web3ReactManager from '../components/Web3ReactManager'
 import AppProvider from '../context'

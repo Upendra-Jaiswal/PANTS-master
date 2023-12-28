@@ -78,11 +78,16 @@ export default function Redeem({
 
   useEffect(() => {
     if (transactionHash) {
-      library.waitForTransaction(transactionHash).then(() => {
-        setLastTransactionHash(transactionHash)
-        setTransactionHash('')
-        setHasBurnt(true)
-      })
+      console.log(transactionHash)
+      try {
+        library.waitForTransaction(transactionHash).then(() => {
+          setLastTransactionHash(transactionHash)
+          setTransactionHash('')
+          setHasBurnt(true)
+        })
+      } catch (e) {
+        console.log('failed')
+      }
     }
   })
 
@@ -245,24 +250,29 @@ export default function Redeem({
             onClick={() => {
               burningfunction(numberBurned.toString())
                 .then(response => {
+                  console.log(typeof numberBurned.toString())
                   setTransactionHash(response.hash)
                 })
                 .catch(error => {
                   console.error(error)
-
-                  // burn(numberBurned.toString(), state.drippSelected)
-                  //   .then(response => {
-                  //     setTransactionHash(response.hash)
-                  //   })
-                  //   .catch(error => {
-                  //     console.error(error)
-
-                  // setTransactionHash(
-                  //   true
-                  //     ? '0x888503cb966a67192afb74c740abaec0b7e8bda370bc8f853fb040eab247c63f'
-                  //     : '0x66dac079f7ee27ba7b2cae27eaabf64574c2011aacd007968be6d282b3c2065b'
-                  // )
                 })
+
+              // .send({
+              //   from: userAccount
+              // })
+
+              // burn(numberBurned.toString(), state.drippSelected)
+              //   .then(response => {
+              //     setTransactionHash(response.hash)
+              //   })
+              //   .catch(error => {
+              //     console.error(error)
+
+              // setTransactionHash(
+              //   true
+              //     ? '0x888503cb966a67192afb74c740abaec0b7e8bda370bc8f853fb040eab247c63f'
+              //     : '0x66dac079f7ee27ba7b2cae27eaabf64574c2011aacd007968be6d282b3c2065b'
+              // )
             }}
           />
           <Back disabled={!!pending}>

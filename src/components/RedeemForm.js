@@ -6,6 +6,12 @@ import ReCAPTCHA from 'react-google-recaptcha'
 
 import Suggest from './Suggest'
 import { stripZeros } from 'ethers/utils'
+import { ethers } from 'ethers'
+import buyburnabi from '../utils/buyburn.json'
+
+import toast from 'react-hot-toast'
+import erc20 from '../utils/erc20.json'
+import { useCount } from './Checkout'
 
 // we need to capture the full address into netlify...
 // https://www.netlify.com/blog/2017/07/20/how-to-integrate-netlifys-form-handling-in-a-react-app/
@@ -92,12 +98,48 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
   const [autoAddress, setAutoAddress] = useState([])
   const [inputY, setInputY] = useState(0)
   const suggestEl = useRef()
+  const [btntext, setbtntext] = useState('Sign the Message')
+  const [count] = useCount()
 
   const [formState, setFormState] = useState(defaultState)
+
+  const contractaddress = '0x906102BCD674EED5a8daDcBbc84BFD426B05840a'
+  const contractabi = buyburnabi
+  const TokenAddress = '0x1Dd8aF2B98a680EA167ccBE8A43a18395F9d7597'
+  const tokenAbi = erc20
 
   function handleChange(event) {
     const { name, value } = event.target
     setFormState(state => ({ ...state, [name]: value }))
+  }
+
+  const BuyBurn = async event => {
+    try {
+      event.preventDefault()
+      const amountInEther = count.toString() // Replace '1.5' with your desired amount
+
+      // Convert ether to wei
+      let amountInWei = ethers.utils.parseUnits(amountInEther, 'ether')
+      amountInWei = parseInt(amountInWei._hex)
+      // console.log("Amount", parseInt(amountInWei._hex)  );
+
+      let provider = new ethers.providers.Web3Provider(window.ethereum)
+      let signer = provider.getSigner()
+      let contract = new ethers.Contract(TokenAddress, tokenAbi, signer)
+      let contractOf = new ethers.Contract(contractaddress, contractabi, signer)
+      // let amount = Number(count) * Number(1000000000000000000)
+      // let  contract = new Contract(  contractaddress, contractabi, signer);
+      // let nftContractOf = new web3.eth.Contract( contractaddress, contractabi);
+      const tx = await contract.approve(contractaddress, amountInWei.toString())
+      await tx.wait()
+      toast.success('Approve Transaction is successfully completed')
+      const hash = await contractOf.BuyBurn(count.toString())
+      await hash.wait()
+      toast.success('Transaction is successfully completed')
+      setbtntext('NFT Claimed')
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   function updateAutoFields(address) {
@@ -265,40 +307,41 @@ export default function RedeemForm({ setHasConfirmedAddress, setUserAddress, num
 
       {/* {recaptchaEnabled && <ReCAPTCHA sitekey={process.env.REACT_APP_SITE_RECAPTCHA_KEY} onChange={onRecaptcha} />} */}
       <ButtonFrame
-        type="submit"
-        // disabled={!canSign || (recaptchaEnabled && !!!recaptcha)}
-        onClick={event => {
-          const signer = library.getSigner()
-          const timestampToSign = Math.round(Date.now() / 1000)
+        // type="submit"
+        // // disabled={!canSign || (recaptchaEnabled && !!!recaptcha)}
+        // onClick={event => {
+        //   const signer = library.getSigner()
+        //   const timestampToSign = Math.round(Date.now() / 1000)
 
-          const header = `PLEASE VERIFY YOUR ADDRESS.\nYour data will never be shared publicly.`
-          const formDataMessage = nameOrder.map(o => `${nameMap[o]}: ${formState[o]}`).join('\n')
-          const autoMessage = `${nameMap[address]}: ${account}\n${nameMap[timestamp]}: ${timestampToSign}\n${nameMap[numberBurned]}: ${actualNumberBurned}`
+        //   const header = `PLEASE VERIFY YOUR ADDRESS.\nYour data will never be shared publicly.`
+        //   const formDataMessage = nameOrder.map(o => `${nameMap[o]}: ${formState[o]}`).join('\n')
+        //   const autoMessage = `${nameMap[address]}: ${account}\n${nameMap[timestamp]}: ${timestampToSign}\n${nameMap[numberBurned]}: ${actualNumberBurned}`
 
-          signer.signMessage(`${header}\n\n${formDataMessage}\n${autoMessage}`).then(returnedSignature => {
-            fetch('/', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-              // body: encode({
-              //   'form-name': 'redeem',
-              //   // ...{
-              //   //   ...formState,
-              //   //   [address]: account,
-              //   //   [timestamp]: timestampToSign,
-              //   //   [numberBurned]: actualNumberBurned,
-              //   //   [signature]: returnedSignature,
-              //   //   ...(recaptchaEnabled ? { 'g-recaptcha-response': recaptcha } : {})
-              //   // }
-              // })
-            })
-              .then(() => {
-                setHasConfirmedAddress(true)
-              })
-              .catch(console.error)
-          })
+        //   signer.signMessage(`${header}\n\n${formDataMessage}\n${autoMessage}`).then(returnedSignature => {
+        //     fetch('/', {
+        //       method: 'POST',
+        //       headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
+        //       // body: encode({
+        //       //   'form-name': 'redeem',
+        //       //   // ...{
+        //       //   //   ...formState,
+        //       //   //   [address]: account,
+        //       //   //   [timestamp]: timestampToSign,
+        //       //   //   [numberBurned]: actualNumberBurned,
+        //       //   //   [signature]: returnedSignature,
+        //       //   //   ...(recaptchaEnabled ? { 'g-recaptcha-response': recaptcha } : {})
+        //       //   // }
+        //       // })
+        //     })
+        //       .then(() => {
+        //         setHasConfirmedAddress(true)
+        //       })
+        //       .catch(console.error)
+        //   })
 
-          event.preventDefault()
-        }}
+        //   event.preventDefault()
+        // }}
+        onClick={event => BuyBurn(event)}
       >
         {canSign ? 'Next' : 'Sign the Message'}
       </ButtonFrame>
