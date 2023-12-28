@@ -1,8 +1,8 @@
 [build]
-  command = “CI= npm run build”
+  command = "yarn build"
   functions = "functions-build"
   publish = "build"
-   
+
 
 # support SPA setup
 [[redirects]]
