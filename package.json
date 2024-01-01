@@ -30,13 +30,11 @@
     "start:app": "react-scripts start",
     "start:functions": "netlify-lambda serve functions -c ./webpack.config.js",
     "prebuild": "cd functions/ && yarn",
-    // "build": "run-p build:**",
     "build": "react-scripts build",
     "build:app": "react-scripts build",
     "build:functions": "netlify-lambda build functions -c ./webpack.config.js",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    // "now-build": "react-scripts build"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
