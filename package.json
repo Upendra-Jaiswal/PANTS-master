@@ -25,8 +25,8 @@
     "styled-components": "^5.0.0-beta.0",
     "web3-react": "^5.0.4"
   },
-   "scripts": {
-    "start": "react-scripts start",
+  "scripts": {
+    "start": "react-scripts --openssl-legacy-provider start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
